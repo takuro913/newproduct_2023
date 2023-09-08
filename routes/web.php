@@ -16,7 +16,11 @@ use App\Http\Controllers\TweetController;
 |
 */
 
-Route::resource('tweet', TweetController::class);
+
+
+Route::middleware('auth')->group(function () {
+  Route::resource('tweet', TweetController::class);
+});
 
 Route::get('/', function () {
     return view('welcome');
