@@ -22,10 +22,14 @@
               <tr class="hover:bg-gray-lighter">
                 <td class="py-4 px-6 border-b border-gray-light dark:border-gray-600">
                   <a href="{{ route('tweet.show',$tweet->id) }}">
-                    <h3 class="text-left font-bold text-lg text-gray-dark dark:text-gray-200">{{$tweet->tweet}}</h3>
+                    <!-- ? 追加 -->
+                    <p class="text-left text-gray-800 dark:text-gray-200">{{$tweet->user->name}}</p>
+                    <h3 class="text-left font-bold text-lg text-gray-800 dark:text-gray-200">{{$tweet->tweet}}</h3>
                   </a>
                   <div class="flex">
-                    <!-- ? 更新ボタン -->
+                    <!-- 条件分岐でログインしているユーザが投稿したtweetのみ編集ボタンと削除ボタンが表示される -->
+                    @if ($tweet->user_id === Auth::user()->id)
+                    <!-- 更新ボタン -->
                     <form action="{{ route('tweet.edit',$tweet->id) }}" method="GET" class="text-left">
                       @csrf
                       <x-primary-button class="ml-3">
@@ -44,6 +48,7 @@
                         </svg>
                       </x-primary-button>
                     </form>
+                    @endif
                   </div>
                 </td>
               </tr>
