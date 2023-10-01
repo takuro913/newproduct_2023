@@ -38,14 +38,55 @@ class TweetController extends Controller
         $validator = Validator::make($request->all(), [
             'tweet' => 'required | max:191',
             'description' => 'required',
+            //↓編集部分
+            'img_path' => ['image','mimes:jpeg,png,jpg,gif'],
+           
         ]);
+        
         // バリデーション:エラー
         if ($validator->fails()) {
             return redirect()
             ->route('tweet.create')
             ->withInput()
-            ->withErrors($validator);
+            ->withErrors($validator);  
+                    
         }
+       
+        // 画像フォームでリクエストした画像を取得
+       // $img = $request->file('img_path');
+
+        // 画像情報がセットされていれば、保存処理を実行
+        /*if (isset($img)) {
+            // storage > public > img配下に画像が保存される
+            $path = $img->store('img','public');
+            // store処理が実行できたらDBに保存処理を実行
+            if ($path) {
+                // DBに登録する処理
+                Tweet::create([
+                    'img_path' => $path,
+                ]);
+            }
+        }*/
+           if ($image) {
+            // 拡張子の取得
+            $extension = $image->getClientOriginalExtension();
+
+            // 新しいファイル名を作る（ランダムな文字数とする）
+            $new_name = uniqid() . "." . $extension;
+
+            // 一時的にtmpフォルダに保存する
+            $image_path = Storage::putFileAs(
+                'tmp', $request->file('image'), $new_name
+            );
+
+        } else {
+            $new_name = 'noimage.jpg';
+            $extension = '0';
+            $image_path = 'noimage.jpg';
+        }
+
+        
+
         // create()は最初から用意されている関数
         // 戻り値は挿入されたレコードの情報
          $data = $request->merge(['user_id' => Auth::user()->id])->all();
