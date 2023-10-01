@@ -30,6 +30,7 @@
                 {{$tweet->created_at}}
               </p>
             </div>
+             <img src="{{ Storage::url($tweet->img_path) }}" width="25%">
             <div class="flex items-center justify-end mt-4">
             <a href="{{ url()->previous() }}">
               <x-secondary-button class="ml-3">
