@@ -33,14 +33,13 @@ class TweetController extends Controller
     public function store(Request $request)
     {
         //$requestの中身をテーブルに保存する
-
+        
          // バリデーション
         $validator = Validator::make($request->all(), [
             'tweet' => 'required | max:191',
             'description' => 'required',
             //↓編集部分
-            'img_path' => ['image','mimes:jpeg,png,jpg,gif'],
-           
+            'img_path' => ['image','mimes:jpeg,png,jpg,gif'],          
         ]);
         
         // バリデーション:エラー
@@ -48,15 +47,13 @@ class TweetController extends Controller
             return redirect()
             ->route('tweet.create')
             ->withInput()
-            ->withErrors($validator);  
-                    
+            ->withErrors($validator);                      
         }
-       
+         
         // 画像フォームでリクエストした画像を取得
-       // $img = $request->file('img_path');
-
+         $img = $request->file('img_path');        
         // 画像情報がセットされていれば、保存処理を実行
-        /*if (isset($img)) {
+         if (isset($img)) {
             // storage > public > img配下に画像が保存される
             $path = $img->store('img','public');
             // store処理が実行できたらDBに保存処理を実行
@@ -64,10 +61,12 @@ class TweetController extends Controller
                 // DBに登録する処理
                 Tweet::create([
                     'img_path' => $path,
+                     
                 ]);
             }
-        }*/
-           if ($image) {
+            
+        }
+          /* if ($image) {
             // 拡張子の取得
             $extension = $image->getClientOriginalExtension();
 
@@ -83,7 +82,7 @@ class TweetController extends Controller
             $new_name = 'noimage.jpg';
             $extension = '0';
             $image_path = 'noimage.jpg';
-        }
+        }*/
 
         
 
