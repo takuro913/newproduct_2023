@@ -17,6 +17,7 @@ class Tweet extends Model
   protected $fillable = [
         'img_path',
   ];
+   
 
  //更新日順に全件データを取る関数
   public static function getAllOrderByUpdated_at()
