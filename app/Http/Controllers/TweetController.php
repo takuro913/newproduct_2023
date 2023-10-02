@@ -55,8 +55,7 @@ class TweetController extends Controller
         // 画像情報がセットされていれば、保存処理を実行
          if (isset($img)) {
             // storage > public > img配下に画像が保存される
-            $path = $img->store('img','public');
-                 
+            $path = $img->store('img','public');         
         }
          
         // ? 編集 フォームから送信されてきたデータとユーザIDをマージし，DBにinsertする
@@ -66,6 +65,7 @@ class TweetController extends Controller
         
         // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
         return redirect()->route('tweet.index');
+        ddd($tweets);
     }
 
     /**
