@@ -55,17 +55,29 @@ class TweetController extends Controller
         // 画像情報がセットされていれば、保存処理を実行
          if (isset($img)) {
             // storage > public > img配下に画像が保存される
-            $path = $img->store('img','public');         
+            $path = $img->store('img','public');  
+            $path=explode('/',$path);       
         }
+
          
         // ? 編集 フォームから送信されてきたデータとユーザIDをマージし，DBにinsertする
          $data = $request->merge(['user_id' => Auth::user()->id])->all();
          $result = Tweet::create($data);
-
+         /*ここからreturn redirectの前まで消したら画像パスは/tmp/phpから始まるやつになって作った日、アップデート
+         した日が表に追加される*/
+         $tweet_id = Tweet::insertGetId([
+          
+           'user_id'=>$data['user_id'],
+           'tweet'=>$data['tweet'], 
+            'description'=>$data['description'], 
+            'img_path'=> $path[1]
+            
+            
+          ]);
         
         // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
         return redirect()->route('tweet.index');
-        ddd($tweets);
+        
     }
 
     /**
