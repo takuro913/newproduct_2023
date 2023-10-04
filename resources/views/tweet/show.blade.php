@@ -33,9 +33,9 @@
             </div>
             <div>
              
-             @foreach ($tweets as $tweet)
+                
                 <img src="{{ Storage::url($tweet->img_path) }}" width="25%">
-             @endforeach
+             
             </div>
             
             <div class="flex items-center justify-end mt-4">
