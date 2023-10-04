@@ -33,9 +33,9 @@
             </div>
             <div>
              
-             <img src="{{'/storage/' . $tweet['img_path']}}" class='w-100 mb-3'/>
-             <!--<img src="{{ Storage::url($tweet->img_path) }}" width="25%">-->
-             
+             @foreach ($tweets as $tweet)
+                <img src="{{ Storage::url($tweet->img_path) }}" width="25%">
+             @endforeach
             </div>
             
             <div class="flex items-center justify-end mt-4">
