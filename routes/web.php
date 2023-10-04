@@ -24,7 +24,7 @@ use App\Http\Controllers\SearchController;
 
 Route::middleware('auth')->group(function () {
     //«•ÒW•”•ª
-     //Route::post('/store', [TweetController::class, 'store'])->name('tweet.store');
+     Route::post('/store', [TweetController::class, 'store'])->name('tweet.store');
      
      Route::get('/tweet/search/input', [SearchController::class, 'create'])->name('search.input');
      Route::get('/tweet/search/result', [SearchController::class, 'index'])->name('search.result');

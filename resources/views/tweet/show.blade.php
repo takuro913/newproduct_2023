@@ -33,8 +33,8 @@
             </div>
             <div>
              
-                
-                <img src="{{ Storage::url($tweet->img_path) }}" width="25%">
+                 <img src="{{ '/storage/' . $tweet['img_path']}}" class='w-100 mb-3'/>
+                <!--<img src="{{ Storage::url($tweet->img_path) }}" width="25%">-->
              
             </div>
             

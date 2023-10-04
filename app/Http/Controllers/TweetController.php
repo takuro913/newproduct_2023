@@ -49,20 +49,30 @@ class TweetController extends Controller
             ->withInput()
             ->withErrors($validator);                      
         }
-         
-        // 画像フォームでリクエストした画像を取得
+          $data = $request->all();
+        // dd($data);
+        $image = $request->file('img_path');
+        // dd($image);
+        // 画像がアップロードされていれば、storageに保存
+        if($request->hasFile('img_path')){
+            $path = \Storage::put('/public', $image);
+            $path = explode('/', $path);
+        }else{
+            $path = null;
+        }
+        /*// 画像フォームでリクエストした画像を取得
          $img = $request->file('img_path');        
         // 画像情報がセットされていれば、保存処理を実行
          if (isset($img)) {
             // storage > public > img配下に画像が保存される
             $path = $img->store('img','public');  
             $path=explode('/',$path);       
-        }
+        }*/
 
          
         // ? 編集 フォームから送信されてきたデータとユーザIDをマージし，DBにinsertする
          $data = $request->merge(['user_id' => Auth::user()->id])->all();
-         $result = Tweet::create($data);
+         //$result = Tweet::create($data);
          /*ここからreturn redirectの前まで消したら画像パスは/tmp/phpから始まるやつになって作った日、アップデート
          した日が表に追加される*/
          $tweet_id = Tweet::insertGetId([
@@ -70,9 +80,9 @@ class TweetController extends Controller
            'user_id'=>$data['user_id'],
            'tweet'=>$data['tweet'], 
             'description'=>$data['description'], 
-            'img_path'=> $path[1]
-            
-            
+            'img_path'=> $path[1],
+            'created_at'=>NOW(),
+            'updated_at'=>NOW()
           ]);
         
         // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
